@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:tikytoe/application/components/component_hero_icon.dart';
 import 'package:tikytoe/application/components/component_menu_button.dart';
@@ -20,6 +21,7 @@ class _PageSplashState extends State<PageSplash> {
   @override
   Widget build(BuildContext context) {
     _size = MediaQuery.of(context).size;
+    SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
     return WillPopScope(
       onWillPop: () async => false,
       child: Scaffold(

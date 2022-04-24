@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:tikytoe/application/components/component_menu_button.dart';
 import 'package:tikytoe/application/constants/const_colors.dart';
@@ -35,6 +36,7 @@ class _PagePickMoveState extends State<PagePickMove> {
   @override
   Widget build(BuildContext context) {
     _size = MediaQuery.of(context).size;
+    SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
     return WillPopScope(
       onWillPop: () async => false,
       child: Scaffold(
