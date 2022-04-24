@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:tikytoe/application/components/component_game_scoreboard.dart';
 import 'package:tikytoe/application/constants/const_colors.dart';
@@ -68,61 +69,65 @@ class _PageGameState extends State<PageGame> {
   @override
   Widget build(BuildContext context) {
     _size = MediaQuery.of(context).size;
-    return Tikytoe(
-      gameStateNotifier: _gameStateNotifier,
-      appServices: _appServices,
-      playerTurnNotifier: _playerTurnNotifier,
-      userMove: widget.userMove,
-      gameScoreBloc: _scoreBloc,
+    SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
+    return WillPopScope(
+      onWillPop: () async => false,
+      child: Tikytoe(
+        gameStateNotifier: _gameStateNotifier,
+        appServices: _appServices,
+        playerTurnNotifier: _playerTurnNotifier,
+        userMove: widget.userMove,
+        gameScoreBloc: _scoreBloc,
 
-      child: Scaffold(
-        appBar: AppBar(
-          backgroundColor: Colors.white.withOpacity(0.0),
-          elevation: 0.0,
-          leading: IconButton(
-            onPressed: () {
-              _navigateToPage(const PageSplash());
-            },
-            icon: const Icon(Icons.arrow_back_ios, color: textColor),
+        child: Scaffold(
+          appBar: AppBar(
+            backgroundColor: Colors.white.withOpacity(0.0),
+            elevation: 0.0,
+            leading: IconButton(
+              onPressed: () {
+                _navigateToPage(const PageSplash());
+              },
+              icon: const Icon(Icons.arrow_back_ios, color: textColor),
+            ),
           ),
-        ),
-        body: Column(
-          mainAxisSize: MainAxisSize.max,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(defaultSpaceHeight),
-              child: SizedBox(
-                width: 100,
-                child: Image.asset("assets/icon.png"),
-              ),
-            ),
-            const SizedBox(height: 20.0),
-            _toss == 1?const Text("You have the first move"): const Text("AI has the first move"),
-            const SizedBox(height: 20.0),
-            ComponentGameScoreBoard(reloadGame: _reloadGame),
-            const SizedBox(height: 30.0),
-            ViewGameBoard(
-              currentGameState: _gameStateNotifier.value,
-            ),
-            const SizedBox(height: 50.0),
-            Card(
-              elevation: 10.0,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(40)
-              ),
-              color: Colors.white,
-                child: IconButton(
-                  onPressed: (){
-                    _reloadGame();
-                  },
-                  icon: const Icon(Icons.refresh),
+          body: Column(
+            mainAxisSize: MainAxisSize.max,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(defaultSpaceHeight),
+                child: SizedBox(
+                  width: 100,
+                  child: Image.asset("assets/icon.png"),
                 ),
-            ),
-            const SizedBox(height: 10.0),
-            const Text("Tap to toss again")
-          ],
+              ),
+              const SizedBox(height: 20.0),
+              _toss == 1?const Text("You have the first move"): const Text("AI has the first move"),
+              const SizedBox(height: 20.0),
+              ComponentGameScoreBoard(reloadGame: _reloadGame),
+              const SizedBox(height: 30.0),
+              ViewGameBoard(
+                currentGameState: _gameStateNotifier.value,
+              ),
+              const SizedBox(height: 50.0),
+              Card(
+                elevation: 10.0,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(40)
+                ),
+                color: Colors.white,
+                  child: IconButton(
+                    onPressed: (){
+                      _reloadGame();
+                    },
+                    icon: const Icon(Icons.refresh),
+                  ),
+              ),
+              const SizedBox(height: 10.0),
+              const Text("Tap to toss again")
+            ],
+          ),
         ),
       ),
     );
